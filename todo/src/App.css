@@ -1,0 +1,8 @@
+.header, .main {
+  display: flex;
+  justify-content: center;
+}
+
+.main {
+  flex-direction: column;
+}
