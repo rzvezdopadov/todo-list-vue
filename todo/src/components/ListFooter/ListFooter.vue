@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 </script>
 
 <template>
@@ -12,21 +11,21 @@
             <li
                 class="list-footer-filters-content"
                 :class="filter === 'All' ? 'filter-selected' : ''"
-                @click="$emit('changeFilter', 'All')"
+                @click="setFilter('All');"
             >   
                 All
             </li>
             <li
                 class="list-footer-filters-content"
                 :class="filter === 'Active' ? 'filter-selected' : ''"
-                @click="$emit('changeFilter', 'Active')"
+                @click="setFilter('Active')"
             >
                 Active
             </li>
             <li
                 class="list-footer-filters-content"
                 :class="filter === 'Completed' ? 'filter-selected' : ''"
-                @click="$emit('changeFilter', 'Completed')"
+                @click="setFilter('Completed')"
             >
                 Completed
             </li>
@@ -45,6 +44,9 @@
     export default {
         props: ['items', 'filter'],
         methods: {
+            setFilter(nameFilter: string) {
+                this.emitter.emit('changeFilter',nameFilter);
+            },
             clearCompleteItems() {
                 for (let i = 0; i < this.items.length; i++) {
                     const [,completed] = this.items[i];
@@ -56,7 +58,7 @@
                     }
                 }
 
-                this.$emit('saveItemsToStorage');
+                this.emitter.emit('saveItemsToStorage');
             }
         }
     }

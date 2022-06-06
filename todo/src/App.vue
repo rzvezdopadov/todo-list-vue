@@ -2,9 +2,7 @@
   import ListHeader from "./components/ListHeader/ListHeader.vue";
   import List from "./components/List/List.vue";
   import ListFooter from "./components/ListFooter/ListFooter.vue";
-  import { StorageUtils } from "./utils/storageUtils";
-import { VueElement } from "vue";
-  
+  import { StorageUtils } from "./utils/storageUtils"; 
 </script>
   
 <template>
@@ -15,20 +13,16 @@ import { VueElement } from "vue";
   <main class="main">
     <ListHeader
       :items = "items"
-      v-on:saveItemsToStorage="saveItemsToStorage"
     ></ListHeader>
     <List 
       :items = "items"
       :filter = "filter"
       :itemChangeId = "itemChangeId"
       :itemChangeOldValue = "itemChangeOldValue"
-      v-on:saveItemsToStorage="saveItemsToStorage"
     ></List>
     <ListFooter
       :items="items"
       :filter = "filter"
-      v-on:saveItemsToStorage="saveItemsToStorage"
-      v-on:changeFilter="changeFilter"
     ></ListFooter>
   </main>
 </template>
@@ -36,11 +30,10 @@ import { VueElement } from "vue";
 <script lang="ts">
     const storage = new StorageUtils;
 
-    
-
     export default {
       el: '#App',
       data() {
+
         return {
           items: storage.getStorage(),
           filter: 'All',
@@ -49,22 +42,20 @@ import { VueElement } from "vue";
         }
       },
 
-      methods: {
-        changeFilter(nameFilter: string) {
+      created() {
+        this.emitter.on('changeFilter', (nameFilter: string) => {
           this.filter = nameFilter;
-        },
-        changeItemChangeId(id: number) {
-          this.itemChangeId = id;
-        },
-        changeItemChangeOldValue(oldValue: string) {
-          this.itemChangeOldValue = oldValue;
-        },
-        saveItemsToStorage() {
-          console.log(this.items);
+        });
+        this.emitter.on('saveItemsToStorage', () => {
           storage.setStorage(this.items);
-        }
-
-      }
+        });
+        this.emitter.on('changeItemChangeId', (id: number) => {
+          this.itemChangeId = id;
+        });
+        this.emitter.on('changeItemChangeOldValue', (oldValue: string) => {
+          this.itemChangeOldValue = oldValue;
+        });
+      },
     }
 </script>
 

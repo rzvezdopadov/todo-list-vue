@@ -24,8 +24,15 @@
             'items', 
             'filter',
             'itemChangeId', 
-            'itemChangeOldValue',         
+            'itemChangeOldValue',
         ],
+        updated() {
+            const activeInput = document.querySelector('.item-input-phrase' && '.visibility-visible');
+
+            if (activeInput) {
+                activeInput.focus();
+            }
+        },
     }
 </script>
 

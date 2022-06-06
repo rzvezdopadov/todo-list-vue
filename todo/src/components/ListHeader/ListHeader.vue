@@ -33,7 +33,7 @@
                 const newItem = [Date.now(), false, value];
 
                 this.items.push(newItem);
-                this.$emit('saveItemsToStorage');
+                this.emitter.emit('saveItemsToStorage');
             },
             arrowClick() {
                 let flagCompleteItem = true;
@@ -54,7 +54,7 @@
                     this.items.forEach((value: any, i: number) => this.items[i][1] = true)
                 }
 
-                this.$emit('saveItemsToStorage');
+                this.emitter.emit('saveItemsToStorage');
             },
         }
     }
@@ -63,4 +63,3 @@
 <style>
     @import 'ListHeader.css';
 </style>
-
